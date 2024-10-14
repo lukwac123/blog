@@ -122,3 +122,10 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Konfiguracja serwera poprzez email
+EMAIL_HOST = 'smtp.wp.pl'
+EMAIL_HOST_USER = 'lukasz-waclawek@wp.pl'
+EMAIL_HOST_PASSWORD = 'S39P5C2R4H7EJ7J5'
+EMAIL_PORT = 465
+EMAIL_USE_SSL = True
