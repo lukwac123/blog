@@ -14,9 +14,11 @@
         <div id="sidebar">
             <h2>Mój blog</h2>
             <p>
-                To jest mój blog. <br><br>
+                To jest mój blog.
                 Dotychczas opublikowałem {% total_posts %} postów.
             </p>
+            <h3>Najnowsze posty</h3>
+            {% show_latest_posts 3 %}
         </div>
     </body>
 </html>
