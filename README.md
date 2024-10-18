@@ -2,6 +2,9 @@
 
 Przedstawiony projekt bloga zbudowany został z głównych komponentów Django służacych do tworzenia modeli danych, systemu szablonów, a także obsługi formularzy i autoryzacji użytkowników. Dzięki temu możliwe jest dodawanie, edytowanie i zarządzanie postami przez administratora, a także komentowanie treści przez użytkowników. Projekt podzielony został na etapy, począwszy od konfiguracji środowiska, przez tworzenie bazy danych, aż po implementację funkcji publikacji. Ważnym elementem będzie również system uwierzytelniania, który pozwoli na zabezpieczenie dostępu do części administracyjnej aplikacji. Projekt bloga pokaże, jak w praktyce używać ORM Django do zarządzania bazą danych oraz jak korzystać z frameworka do obsługi widoków i routingu URL.
 
+![Screenshot from 2024-10-18 10-52-41](https://github.com/user-attachments/assets/1a69bab3-0b9c-4607-8791-49b399fbc837)
+<sup>Rys. Strona główna aplikacji Blog</sup>
+
 ## Przebieg projektu:
 1. Tworzenie środowiska wirtualnego w Pythonie.
 2. Instalacja Django.
@@ -51,8 +54,7 @@ Django to framework do tworzenia aplikacji internetowych w Pythonie, który upra
 
 Sposób przetwarzania żądań oraz zarządzanie cyklem żądanie-odpowiedź:
 
-
-
+![Django-2024-10-18-081610](https://github.com/user-attachments/assets/9857b0fc-52c8-4148-9ed0-73fe7a9d10d7)
 <sup>Rys. Architektura Django.</sup>
 
 1. Przeglądarka: Użytkownik wysyła żądanie HTTP (np. klikając link lub wprowadzając adres URL).
