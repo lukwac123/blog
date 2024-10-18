@@ -180,3 +180,64 @@ Klasa **Meta** służy do sortowania wyników według pola **publish**, dodanie 
 Metoda **__str__** jest domyślną metodą Pythona która zwraca ciąg znaków.
 
 Metoda **get_absolute_url_** zawiera funkcję **reverse()** która zbuduje adres URL dynamicznie, z wykorzystaniem nazwy adresu URL zdefiniowanych we wzorcach adresów URL.
+
+# 6. Tworzenie witryny administracyjnej dla modeli.
+
+Aby można było zarządzać wpisami na blogu należy utworzyć stronę administracyjną. Django posiada wbudowany interfejs administracyjny, który jest przydatny do edycji treści.
+Do tego potrzebna jest aplikacja **django.contrib.admin**, która powinna być dołączona w standardzie w ustawieniach **INSTALLED_APPS**.
+Aby utworzyć użytkownika należy wpisać następujące polecenie:
+```
+python3 manage.py createsuperuser
+```
+Następnie wpisać żądaną nazwę użytkownika, e-mail i hasło. Jeżeli wszystko przebiegnie poprawnie na koniec pojawi się komunikat:
+```
+Superuser created succesfully.
+```
+Dostęp do witryny administracyjnej uzyskujemy poprzez uruchomienie serwera programistycznego:
+```
+python3 manage.py runserver
+```
+a następnie w oknie przeglądarki wpisujemy _http://127.0.0.1:8000/admin/_ nalezy wpisać dane do logowania podane w poprzednim kroku i uzyskujemy dostęp do panelu administracyjnego.
+
+## 6.1 Dodawanie modeli do witryny administracyjnej.
+
+Dodawanie modeli do witryny administracyjnej polega na rejestrowaniu modeli w pliku **admin.py**, zmiany są widoczne w witrynie administracyjnej po jej odświeżeniu.
+Dla przykładu dodanie modelu **Post** umożliwi dodanie nowego posta, a zapis spowoduje zapisanie go w bazie danych SQL. Django daje możliwość personalizowania wyświetlanych modeli. Dla przykładu zosto to przedstawione poniżej:
+```
+@admin.register(Post)
+class PostAdmin(admin.ModelAdmin):
+    list_display = ['title', 'slug', 'author', 'publish', 'status']
+    list_filter = ['status', 'created', 'publish', 'author']
+    search_fields = ['titles', 'body']
+    prepopulated_fields = {'slug': ('title',)}
+    raw_id_fields = ['author']
+    date_hierarchy = 'publish'
+    ordering = ['status', 'publish']
+```
++ **list_display** - wskazuje jakie pola będą wyświetlanie na liście postów i w jakiej kolejności.
++ **list_filter** - lista postów zawiera możliwość filtrowania wyników według poszczególnych pól.
++ **search_fields** - w witrynie widoczny jest pasek Szukaj
++ **prepopulated_fields** - podczas dodawania nowego postu w chwili pisania jego tytułu pole slug automatycznie uzupełni się.
++ **raw_id_fields** - wpisywanie numeru id przyporządkowanego autorowi pisanego posta zamiast konieczności wpisywania nazwy.
+
+# 7. Przygotowanie widoków, wzorców adresów URL oraz szablonów.
+
+Widok frameworka Django to funkcja Pythona, która otrzymuje żądanie sieciowe i udziala na nie odpowiedzi. Wewnątrz widoku znajduje się cała logika odpowiedzialna za zwrot żądanej odpowiedzi. Najpierw należy zdefiniować widok aplikacji, następnie zdefiniować wzorzec adresu URL dla danego widoku, a na koniec utworzyć szablon HTML przeznaczony do wyświetlenia danych wygenerowanych przez widok. 
+Dla przykładu przedstawiony został poniżej widok **post_list** odpowiada on za przedstawienie wszystkich postów, które miały nadany status "Opublikowane":
+```
+def post_list(request):
+    posts = Post.published.all()
+    return render(request, 'blog/post/list.html, {'posts': posts)
+```
+Na końcu użyta została funkcja **render()** która zawira obiekt **request** oraz ścieżkę do szablonu.
+
+Następnie należy dodać wzorzec adresu URL. Ta czynność odbywa się w pliku **urls.py** aplikacji blog. 
+```
+urlpatterns = [
+        path('', views.post_list, name='post_list'),
+        path('<int:id>/', views.post_list, name='post_list'),
+        ]
+```
+Wzorce adresów URL pozwalają mapować adresy URL na widoki. Wzorzec adresu URL składa się z wyrażenia regularnego Pythona, widoku i nazwy, co pozwala na otrzymanie nazwy unikatowej w całym projekcie.
+
+Ostatnim etapem jest utworzenie szablonu dla widoku. Szablon określa sposób wyświetlania danych - zazwyczaj w formacie HTML w połączeniu z językiem opisu szablonów frameworka Django.Język szablonów Django pozwala oddzielić warstwę prezentacji (HTML) od logiki aplikacji (Python). Umożliwia generowanie dynamicznych stron HTML poprzez wstawianie danych bezpośrednio do statycznego szablonu za pomocą specjalnej składni. Składnia ta obejmuje m.in. zmienne, filtry i tagi, które umożliwiają manipulowanie danymi oraz kontrolę nad tym, co jest wyświetlane. Szablony w Django działają w oparciu o tzw. kontekst, czyli dane przekazywane przez widok, które są wykorzystywane do tworzenia ostatecznego HTML-a. Dzięki temu system szablonów upraszcza tworzenie wielokrotnego użytku elementów stron i oddziela logikę od interfejsu użytkownika.
