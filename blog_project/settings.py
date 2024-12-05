@@ -1,3 +1,5 @@
+from priv import *
+
 """
 Django settings for blog_project project.
 
@@ -20,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-060**5mlrcej8ue6juq0jh_jsf$h@pj&qo6*9t-4kk%lfj&cu('
+SECRET_KEY = MY_SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -80,14 +82,7 @@ WSGI_APPLICATION = 'blog_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'blog',
-        'USER': 'blog',
-        'PASSWORD': 'programista123',
-    }
-}
+DATABASES = MY_DATABASES
 
 
 # Password validation
@@ -132,8 +127,8 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Konfiguracja serwera poprzez email
-EMAIL_HOST = 'smtp.wp.pl'
-EMAIL_HOST_USER = 'lukasz-waclawek@wp.pl'
-EMAIL_HOST_PASSWORD = 'S39P5C2R4H7EJ7J5'
-EMAIL_PORT = 465
-EMAIL_USE_SSL = True
+EMAIL_HOST = MY_EMAIL_HOST
+EMAIL_HOST_USER = MY_EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD = MY_EMAIL_HOST_PASSWORD
+EMAIL_PORT = MY_EMAIL_PORT
+EMAIL_USE_SSL = MY_EMAIL_USE_SSL
