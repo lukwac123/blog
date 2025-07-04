@@ -2,6 +2,35 @@
 
 Przedstawiony projekt bloga zbudowany został z głównych komponentów Django służacych do tworzenia modeli danych, systemu szablonów, a także obsługi formularzy i autoryzacji użytkowników. Dzięki temu możliwe jest dodawanie, edytowanie i zarządzanie postami przez administratora, a także komentowanie treści przez użytkowników. Projekt podzielony został na etapy, począwszy od konfiguracji środowiska, przez tworzenie bazy danych, aż po implementację funkcji publikacji. Ważnym elementem będzie również system uwierzytelniania, który pozwoli na zabezpieczenie dostępu do części administracyjnej aplikacji. Projekt bloga pokaże, jak w praktyce używać ORM Django do zarządzania bazą danych oraz jak korzystać z frameworka do obsługi widoków i routingu URL.
 
+---
+## Funkcje aplikacji
+- Publikacja i edycja postów blogowych
+- Obsługa kategorii i tagów
+- System komentarzy
+- Udostępnianie wpisów e-mailem
+- Strony z listą postów oraz widokiem pojedynczego wpisu
+- Nawigacja między postami
+- Obsługa paginacji
+
+---
+## Struktura katalogów
+| 📁 blog/                 | Katalog projektu                              |
+|:-------------------------|:----------------------------------------------|
+| 📁 blog/                 | Aplikacja z logiką bloga                      |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── 📄 models.py         | Model postów i komentarzy                     |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── 📄 views.py          | Widoki listy postów, szczegółów, udostępniania |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── 📄 forms.py          | Formularze komentarzy i udostępniania mailem  |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── 📄 urls.py           | Lokalne trasy aplikacji                       |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── 📁 templates/blog/   | Szablony HTML bloga                           |
+| 📁 mysite/               | Główna konfiguracja projektu Django           |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── 📄 settings.py       | Konfiguracja projektu                         |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── 📄 urls.py           | Główne trasy URL                              |
+| 📄 db.sqlite3            | Baza danych SQLite (domyślna)                 |
+| 📄 manage.py             | Główne narzędzie CLI Django                   |
+| 📄 requirements.txt      | Lista zależności                              |
+| 📄 README.md             | Dokumentacja projektu                         |
+
+---
 ## Przebieg projektu:
 1. Tworzenie środowiska wirtualnego w Pythonie.
 2. Instalacja Django.
@@ -12,7 +41,7 @@ Przedstawiony projekt bloga zbudowany został z głównych komponentów Django s
 7. Przygotowanie widoków, wzorców adresów URL oraz szablonów.
 8. Usprawnienie i rozbudowa aplikacji.
 
-## 1. Tworzenie środowiska wirtualnego w Pythonie.
+### 1. Tworzenie środowiska wirtualnego w Pythonie.
 
 Środowisko wirtualne w Pythonie to izolowany zestaw narzędzi, który pozwala na instalację specyficznych wersji pakietów i bibliotek, niezależnych od globalnych instalacji Pythona na komputerze. Dzięki temu można uniknąć konfliktów między wersjami pakietów w różnych projektach. Środowiska te są szczególnie przydatne przy pracy nad wieloma projektami jednocześnie, ponieważ pozwalają na utrzymanie odpowiednich zależności. Korzystanie ze środowisk wirtualnych jest standardową praktyką w projektach Pythonowych, ponieważ zapewnia kontrolę nad wersjami bibliotek i minimalizuje ryzyko problemów przy wdrażaniu aplikacji.
 
@@ -31,7 +60,7 @@ Symbol zachęty zawiera ujątą w nawiasy nazwę aktywnego śrdodowiska wirtualn
 ```
 Za pomocą polecenia *deactivate* można w dowolnym momencie zdezaktywować środowisko.
 
-## 2. Instalacja Django.
+### 2. Instalacja Django.
 
 Instalacji Django dokonujemy będąc w folderze z aktywnym środowiskiem wirtualnym utworzonym w poprzednim punkcie przy użyciu instalatora pakietów *pip*
 ```
@@ -64,7 +93,7 @@ Sposób przetwarzania żądań oraz zarządzanie cyklem żądanie-odpowiedź:
 8. Widok: Zwraca wygenerowaną stronę HTML.
 9. Przeglądarka: Ostatecznie użytkownik widzi wygenerowaną stronę w przeglądarce.
 
-## 3. Utworzenie i konfiguracja projektu Django
+### 3. Utworzenie i konfiguracja projektu Django
 
 Django zawiera polecenie, które utworzy początkową strukture plików projektu. Znajdujemy się w głównym katalogu _blog_ który jest kontenerem dla tego projektu. 
 Będąc w tym folderze wpisujemy polecenie:
@@ -97,7 +126,7 @@ python3 manage.py runserver
 ```
 Następnie z konsoli klikamy na wyświetlony link _http://127.0.0.1:8000/_ i powinniśmy zobaczyć ekran powitalny z informacją:"Instalacja przebiegła pomyślnie! Gratulacje!"
 
-## 4. Utworzenie aplikacji.
+### 4. Utworzenie aplikacji.
 
 Będąc w katalogu głównym projektu _blog/_ należy wpisać poniższe polecenie:
 ```
@@ -116,7 +145,7 @@ blog/
     views.py
 ```
 
-# 5. Projektowanie modeli danych.
+### 5. Projektowanie modeli danych.
 
 Model Django jest źródłem informacji i sposobu w jaki mają zachowowywać się dane. Składa się on z klasy Pythona, która jest podklasą klasy **django.db.models.Model**.
 Każdy model można zmapować na pojedyńczą tabelę bazy danych, a każdy atrybut tej klasy reprezentuje pole bazy danych. Modele tworzymy w pliku **models.py** w floderze aplikacji _blog/_.
@@ -178,7 +207,7 @@ Metoda **__str__** jest domyślną metodą Pythona która zwraca ciąg znaków.
 
 Metoda **get_absolute_url_** zawiera funkcję **reverse()** która zbuduje adres URL dynamicznie, z wykorzystaniem nazwy adresu URL zdefiniowanych we wzorcach adresów URL.
 
-# 6. Tworzenie witryny administracyjnej dla modeli.
+### 6. Tworzenie witryny administracyjnej dla modeli.
 
 Aby można było zarządzać wpisami na blogu należy utworzyć stronę administracyjną. Django posiada wbudowany interfejs administracyjny, który jest przydatny do edycji treści.
 Do tego potrzebna jest aplikacja **django.contrib.admin**, która powinna być dołączona w standardzie w ustawieniach **INSTALLED_APPS**.
@@ -196,7 +225,7 @@ python3 manage.py runserver
 ```
 a następnie w oknie przeglądarki wpisujemy _http://127.0.0.1:8000/admin/_ nalezy wpisać dane do logowania podane w poprzednim kroku i uzyskujemy dostęp do panelu administracyjnego.
 
-## 6.1 Dodawanie modeli do witryny administracyjnej.
+### 6.1 Dodawanie modeli do witryny administracyjnej.
 
 Dodawanie modeli do witryny administracyjnej polega na rejestrowaniu modeli w pliku **admin.py**, zmiany są widoczne w witrynie administracyjnej po jej odświeżeniu.
 Dla przykładu dodanie modelu **Post** umożliwi dodanie nowego posta, a zapis spowoduje zapisanie go w bazie danych SQL. Django daje możliwość personalizowania wyświetlanych modeli. Dla przykładu zosto to przedstawione poniżej:
@@ -217,7 +246,7 @@ class PostAdmin(admin.ModelAdmin):
 + **prepopulated_fields** - podczas dodawania nowego postu w chwili pisania jego tytułu pole slug automatycznie uzupełni się.
 + **raw_id_fields** - wpisywanie numeru id przyporządkowanego autorowi pisanego posta zamiast konieczności wpisywania nazwy.
 
-# 7. Przygotowanie widoków, wzorców adresów URL oraz szablonów.
+### 7. Przygotowanie widoków, wzorców adresów URL oraz szablonów.
 
 Widok frameworka Django to funkcja Pythona, która otrzymuje żądanie sieciowe i udziala na nie odpowiedzi. Wewnątrz widoku znajduje się cała logika odpowiedzialna za zwrot żądanej odpowiedzi. Najpierw należy zdefiniować widok aplikacji, następnie zdefiniować wzorzec adresu URL dla danego widoku, a na koniec utworzyć szablon HTML przeznaczony do wyświetlenia danych wygenerowanych przez widok. 
 Dla przykładu przedstawiony został poniżej widok **post_list** odpowiada on za przedstawienie wszystkich postów, które miały nadany status "Opublikowane":
@@ -239,5 +268,29 @@ Wzorce adresów URL pozwalają mapować adresy URL na widoki. Wzorzec adresu URL
 
 Ostatnim etapem jest utworzenie szablonu dla widoku. Szablon określa sposób wyświetlania danych - zazwyczaj w formacie HTML w połączeniu z językiem opisu szablonów frameworka Django.Język szablonów Django pozwala oddzielić warstwę prezentacji (HTML) od logiki aplikacji (Python). Umożliwia generowanie dynamicznych stron HTML poprzez wstawianie danych bezpośrednio do statycznego szablonu za pomocą specjalnej składni. Składnia ta obejmuje m.in. zmienne, filtry i tagi, które umożliwiają manipulowanie danymi oraz kontrolę nad tym, co jest wyświetlane. Szablony w Django działają w oparciu o tzw. kontekst, czyli dane przekazywane przez widok, które są wykorzystywane do tworzenia ostatecznego HTML-a. Dzięki temu system szablonów upraszcza tworzenie wielokrotnego użytku elementów stron i oddziela logikę od interfejsu użytkownika.
 
-# 8. Usprawnienie i rozbudowa aplikacji.
+### 8. Usprawnienie i rozbudowa aplikacji.
+
+|  Usprawnienie                               | Opis                                                                          |
+|:--------------------------------------------|:------------------------------------------------------------------------------|
+| Autoryzacja i uwierzytelnianie              | Logowanie, rejestracja i profile użytkowników.                                |
+| Panel użytkownika (dashboard)               | Kokpit do zarządzania wpisami i komentarzami dla autora.                      |
+| Kategoryzacja i tagowanie                   | Kategorię nadrzędne i tagi umożliwiające lepsze filtrowanie treści.           |
+| Wersjonowanie treści                        | Historia zmian postów i możliwość ich przywracania.                           |
+| Komentarze z moderacją                      | Komentarze ze statusem: oczekujące, zatwierdzone, odrzucone.                  |
+| RSS i Atom feedy                            | Kanały subskrypcji do czytników wiadomości.                                   |
+| Wyszukiwarka                                | Przeszukiwanie wpisów po tytule, treści i tagach.                             |
+| Newsletter / Subskrypcja                    | Zapisywanie się na powiadomienia e-mail o nowych wpisach.                     |
+| Statystyki i analityka                      | Liczniki odsłon, popularność wpisów, integracja z Google Analytics.           |
+| SEO i meta tagi                             | Lepsza widoczność w wyszukiwarkach – tytuły, meta opisy, przyjazne URL-e.     |
+| Dodawanie zdjęć / galerii                   | Wpisy z obrazkami, obsługa `ImageField`, galeria multimedialna.               |
+| Komentarze AJAX                             | Dodawanie komentarzy bez przeładowania strony – interaktywność i UX.          |
+| Testy jednostkowe i integracyjne            | Sprawdzanie poprawności działania modeli, widoków, formularzy.                |
+| Tłumaczenia i internacjonalizacja (i18n)    | Obsługa wielu języków i tłumaczenia interfejsu.                               |
+| Ochrona przed spamem i atakami              | CAPTCHA, throttle rate, filtrowanie treści, zabezpieczenia formularzy.        |
+
+---
+## Źródło
+Projekt na podstawie książki:  
+„Django 4 By Example” – Antonio Mele  
+Wydawnictwo: Packt Publishing
 
