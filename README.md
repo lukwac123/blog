@@ -2,6 +2,9 @@
 
 Przedstawiony projekt bloga zbudowany został z głównych komponentów Django służacych do tworzenia modeli danych, systemu szablonów, a także obsługi formularzy i autoryzacji użytkowników. Dzięki temu możliwe jest dodawanie, edytowanie i zarządzanie postami przez administratora, a także komentowanie treści przez użytkowników. Projekt podzielony został na etapy, począwszy od konfiguracji środowiska, przez tworzenie bazy danych, aż po implementację funkcji publikacji. Ważnym elementem będzie również system uwierzytelniania, który pozwoli na zabezpieczenie dostępu do części administracyjnej aplikacji. Projekt bloga pokaże, jak w praktyce używać ORM Django do zarządzania bazą danych oraz jak korzystać z frameworka do obsługi widoków i routingu URL.
 
+![Image](https://github.com/user-attachments/assets/a0aa6898-eab1-431e-a19f-a9118a46c3a1)
+<sup>Rys. 1. Strona główna aplikacji Blog.</sup>
+
 ---
 ## Funkcje aplikacji
 - Publikacja i edycja postów blogowych
